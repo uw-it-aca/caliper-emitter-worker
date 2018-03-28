@@ -15,6 +15,9 @@ phases:
       # Install Testify to use common assertions and mocks in tests
       - go get -u github.com/stretchr/testify
 
+      # Install dep
+      - go get -u github.com/golang/dep/cmd/dep
+
   pre_build:
     commands:
 
