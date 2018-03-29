@@ -123,7 +123,7 @@ func getQueueURL()(string){
 	return os.Getenv("SQS_URL")
 }
 
-type Config struct {
+type LambdaConfig struct {
 	secondsToRun int
 }
 /*
