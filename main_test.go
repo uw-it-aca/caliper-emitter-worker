@@ -60,3 +60,15 @@ func TestParseBodyJSON(t *testing.T) {
 	assert.Equal(t, expectedJSON, json)
 
 }
+
+
+func TestGetSQSURL(t *testing.T){
+	func() {
+		defer func() {
+			if r:= recover(); r== nil {
+				t.Errorf("TestGetSQSURL should have panicked without a SQS URL")
+			}
+		}()
+		getQueueURL()
+	}()
+}

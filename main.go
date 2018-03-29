@@ -119,8 +119,14 @@ func getQueueConfig() *sqs.SQS{
 }
 
 func getQueueURL()(string){
+
+	url := os.Getenv("SQS_URL")
+
+	if url == "" {
+		panic(errors.New("No URL was provided for the SQS endpoinT!"))
+	}
 	// URL to our queue
-	return os.Getenv("SQS_URL")
+	return url
 }
 
 /*
