@@ -69,6 +69,8 @@ func emitEvents(body string)(error){
 		go emit(svc, payload, seconds)
 	}
 
+	emit(svc, payload, seconds)
+
 	return nil
 }
 
