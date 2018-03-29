@@ -97,7 +97,7 @@ func getMessageInput(payload string) *sqs.SendMessageBatchInput{
 }
 
 func getPayload()(string){
-	dat, err := ioutil.ReadFile("./generated.json")
+	dat, err := ioutil.ReadFile("./public/generated.json")
 
 	check(err)
 
