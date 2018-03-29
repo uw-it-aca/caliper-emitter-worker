@@ -62,18 +62,26 @@ func emitEvents(body string)(error){
 	secondsToRun := json["secondsToRun"].(float64)
 	seconds := time.Duration(secondsToRun) * time.Second
 
-	start := time.Now()
-
 	svc := getQueueConfig()
 	payload := getPayload()
+
+	for i := 0; i < getNumThreads(); i++{
+		go emit(svc, payload, seconds)
+	}
+
+	return nil
+}
+
+
+func emit(svc *sqs.SQS, payload string, seconds time.Duration){
 	msgInput := getMessageInput(payload)
 
+	start := time.Now()
 	for elapsed := time.Since(start); elapsed < seconds; elapsed = time.Since(start) {
 		_, err := svc.SendMessageBatch(msgInput)
 		check(err)
 	}
 
-	return nil
 }
 
 func getMessageInput(payload string) *sqs.SendMessageBatchInput{
@@ -118,15 +126,9 @@ func getQueueConfig() *sqs.SQS{
 
 }
 
+// returns the URL to our queue
 func getQueueURL()(string){
-
-	url := os.Getenv("SQS_URL")
-
-	if url == "" {
-		panic(errors.New("No URL was provided for the SQS endpoinT!"))
-	}
-	// URL to our queue
-	return url
+	return getEnvVar("SQS_URL")
 }
 
 /*
@@ -152,4 +154,27 @@ func parseBodyJSON(body string)(map[string]interface{}, error){
 	}
 
 	return dat, err
+}
+
+func getNumThreads()(int){
+	num, err := strconv.Atoi(getEnvVar("NUM_THREADS"))
+
+	if err != nil {
+		panic(err)
+	}
+
+	return num
+}
+
+/*
+Returns the value of the given environment variable key, and raises an error if it is not present
+ */
+func getEnvVar(key string)(string){
+	url := os.Getenv(key)
+
+	if url == "" {
+		panic(errors.New("No value was found for the environement variable of : " + key))
+	}
+
+	return url
 }
