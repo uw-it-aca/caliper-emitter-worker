@@ -15,14 +15,16 @@ phases:
       # Install Testify to use common assertions and mocks in tests
       - go get -u github.com/stretchr/testify
 
-      # Install dep
-      - go get -u github.com/golang/dep/cmd/dep
+      - chmod +x /go/bin/dep
 
   pre_build:
     commands:
-
+    
       # Make sure we're in the project directory within our GOPATH
       - cd "/go/src/handler"
+
+      # install dependencies
+      - dep ensure
 
       # Fetch all dependencies
       - go get ./...
