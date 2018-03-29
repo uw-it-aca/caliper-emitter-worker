@@ -66,10 +66,10 @@ func emitEvents(body string)(error){
 
 	svc := getQueueConfig()
 	payload := getPayload()
-	msg_input := getMessageInput(payload)
+	msgInput := getMessageInput(payload)
 
 	for elapsed := time.Since(start); elapsed < seconds; elapsed = time.Since(start) {
-		_, err := svc.SendMessageBatch(msg_input)
+		_, err := svc.SendMessageBatch(msgInput)
 		check(err)
 	}
 
@@ -123,9 +123,13 @@ func getQueueURL()(string){
 	return os.Getenv("SQS_URL")
 }
 
+/*
+LambdaConfig is the type of the caliper-emitter-worker's configuration
+ */
 type LambdaConfig struct {
 	secondsToRun int
 }
+
 /*
 The body of the request must follow the following format or it will be rejected
 {
