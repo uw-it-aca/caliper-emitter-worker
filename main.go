@@ -30,7 +30,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 400,
-			Body:       "Malformed request",
+			Body:       "Error: " + err.Error(),
 			Headers: map[string]string{
 				"Content-Type": "text/html",
 			},

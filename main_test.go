@@ -48,8 +48,6 @@ func TestHandler(t *testing.T) {
 
 func TestParseBodyJSON(t *testing.T) {
 	body := "{ \"secondsToRun\": 2 }"
-	// Skipping tests for now
-	t.Skip()
 
 
 	json, err := parseBodyJSON(body)
@@ -60,7 +58,5 @@ func TestParseBodyJSON(t *testing.T) {
 	assert.Equal(t, expectedJSON["secondsToRun"], float64(2))
 	assert.Nil(t, err)
 	assert.Equal(t, expectedJSON, json)
-
-
 
 }
