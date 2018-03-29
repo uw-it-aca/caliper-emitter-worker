@@ -53,29 +53,29 @@ func main() {
 }
 
 func emitEvents(body string)(error){
-	json, err := parseBodyJSON(body)
+	requestJSON, err := parseBodyJSON(body)
 
 	if err != nil {
 		return err
 	}
 
-	secondsToRun := json["secondsToRun"].(float64)
-	seconds := time.Duration(secondsToRun) * time.Second
-
-	svc := getQueueConfig()
-	payload := getPayload()
+	secondsToRun := requestJSON["secondsToRun"].(float64)
 
 	for i := 0; i < getNumThreads(); i++{
-		go emit(svc, payload, seconds)
+		go emit(secondsToRun)
 	}
 
-	emit(svc, payload, seconds)
+	emit(secondsToRun)
 
 	return nil
 }
 
 
-func emit(svc *sqs.SQS, payload string, seconds time.Duration){
+func emit(secondsToRun float64){
+	seconds := time.Duration(secondsToRun) * time.Second
+
+	svc := getQueueConfig()
+	payload := getPayload()
 	msgInput := getMessageInput(payload)
 
 	start := time.Now()
