@@ -173,7 +173,7 @@ func getEnvVar(key string)(string){
 	url := os.Getenv(key)
 
 	if url == "" {
-		panic(errors.New("No value was found for the environement variable of : " + key))
+		panic(errors.New("no value was found for the environement variable of : " + key))
 	}
 
 	return url
